@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   try {
     const data = await s3.listObjectsV2({
       Bucket: bucket,
-      Prefix: "" // 🔧 Aquí podrías poner un directorio raíz como "mockups/"
+      Prefix: "ALTERNO/MOCKUPS" // 🔧 Aquí podrías poner un directorio raíz como "mockups/"
     }).promise();
 
     const items = data.Contents
@@ -43,4 +43,5 @@ export default async function handler(req, res) {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+
 }
