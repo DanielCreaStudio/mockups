@@ -1,0 +1,9 @@
+{
+  "name": "mockups-gallery",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.671.0",
+    "@aws-sdk/s3-request-presigner": "^3.671.0"
+  }
+}
