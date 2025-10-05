@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📚 Biblioteca de Mockups</title>
+  <style>
+    body { font-family: sans-serif; background: #f5f6fa; margin: 0; padding: 20px; }
+    h1 { text-align: center; margin-bottom: 20px; }
+    .category { margin-bottom: 40px; }
+    .category h2 { border-bottom: 2px solid #333; padding-bottom: 5px; }
+    .gallery { display: grid; grid-template-columns: repeat(auto-fill,minmax(200px,1fr)); gap: 20px; }
+    .item { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+    .item img { width: 100%; height: 200px; object-fit: cover; background: #ddd; }
+    .info { padding: 10px; }
+    .info h3 { font-size: 0.9rem; margin: 0 0 5px; }
+    .download-btn {
+      display: block; text-align: center;
+      background: #667eea; color: white; padding: 8px;
+      border-radius: 5px; text-decoration: none; font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>📚 Biblioteca de Mockups</h1>
+  <div id="content">Cargando...</div>
+
+  <script>
+    async function load() {
+      const res = await fetch('/api/wasabi'); // 🔑 Pide al backend
+      const data = await res.json();
+      const container = document.getElementById('content');
+      container.innerHTML = "";
+
+      // Agrupar por categoría
+      const grouped = data.reduce((acc, item) => {
+        (acc[item.category] = acc[item.category] || []).push(item);
+        return acc;
+      }, {});
+
+      for (const cat in grouped) {
+        const section = document.createElement('div');
+        section.className = "category";
+        section.innerHTML = `<h2>📂 ${cat}</h2>
+          <div class="gallery">
+            ${grouped[cat].map(f => `
+              <div class="item">
+                <img src="${f.previewUrl}" alt="">
+                <div class="info">
+                  <h3>${f.filename}</h3>
+                  <a href="${f.editableUrl}" target="_blank" class="download-btn">⬇️ Descargar</a>
+                </div>
+              </div>
+            `).join("")}
+          </div>`;
+        container.appendChild(section);
+      }
+    }
+
+    load();
+  </script>
+</body>
+</html>
