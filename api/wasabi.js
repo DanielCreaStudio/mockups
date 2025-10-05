@@ -20,6 +20,7 @@ export default async function handler(req, res) {
   try {
     const list = await s3.send(new ListObjectsV2Command({
       Bucket: BUCKET,
+      Prefix: ALTERNO/MOCKUPS/VEHICULOS/,
       // Opcional: si tienes un prefijo raíz como "mockups/"
       // Prefix: "mockups/"
     }));
@@ -56,4 +57,5 @@ export default async function handler(req, res) {
     res.status(500).json({ error: e.message || "Server error" });
   }
 }
+
 
