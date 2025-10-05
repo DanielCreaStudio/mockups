@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     }));
 
     const items = (list.Contents || [])
-      .filter(o => o.Key.includes("PREVIEW/"))
+      .filter(o => o.Key.includes("PREVIEWS/"))
       .slice(0, 5000) // por si tienes miles, evita respuestas gigantes
       .map(o => o.Key);
 
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
         { expiresIn: 60 * 60 } // 1h
       );
 
-      const editableKey = key.replace("PREVIEW", "EDITABLES");
+      const editableKey = key.replace("PREVIEWS", "EDITABLES");
       const editableUrl = await getSignedUrl(
         s3,
         new GetObjectCommand({ Bucket: BUCKET, Key: editableKey }),
@@ -57,5 +57,6 @@ export default async function handler(req, res) {
     res.status(500).json({ error: e.message || "Server error" });
   }
 }
+
 
 
